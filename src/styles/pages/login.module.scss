@@ -1,0 +1,92 @@
+/** @format */
+@import "../layout";
+
+.login-container {
+  @include flex-row(center, center);
+  width: 100%;
+  height: 100%;
+}
+
+.login-form {
+  @include flex-column(flex-start, flex-start);
+  width: 300px;
+  height: 400px;
+  padding: 20px;
+
+  h2 {
+    font-size: 23px;
+    font-weight: 700;
+    color: rgb(50, 50, 50);
+    margin-bottom: 15px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+}
+
+.login-input {
+  width: 100%;
+  height: 30px;
+  margin-bottom: 10px;
+  @include flex-row(space-between, center);
+
+  input {
+    border: none;
+    border-bottom: 1px solid rgb(75, 75, 75);
+    padding: 5px;
+    width: 200px;
+  }
+}
+
+.login-id-save {
+  @include flex-row(center, center);
+  margin: 15px 0;
+  width: 100%;
+
+  input[type="checkbox"] {
+    -webkit-appearance: none;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    outline: none !important;
+    border: 1px solid rgba(170, 170, 170, 0.5);
+    border-radius: 2px;
+    background: #ffffff;
+  }
+
+  input[type="checkbox"]::before {
+    content: "\2713";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    line-height: 1;
+  }
+
+  input[type="checkbox"]:checked {
+    background-color: rgb(255, 204, 108);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+  }
+
+  input[type="checkbox"]:checked::before {
+    border-radius: 2px;
+    transform: scale(1) translate(-50%, -50%);
+  }
+
+  label {
+    margin-right: 7px;
+  }
+}
+
+.login-btn {
+  background-color: rgb(255, 204, 108);
+  color: white;
+  border: none;
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+}
