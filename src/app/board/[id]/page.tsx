@@ -4,6 +4,7 @@
 import BoardList from "@/components/pages/boardList";
 import BoardPlan from "@/components/pages/boardPlan";
 import React, { useEffect, useState } from "react";
+import style from "../../../styles/pages/board.module.scss";
 
 const BoardDetail = ({ params }: { params: { id: number } }) => {
   const [hotels, setHotels] = useState([]);
@@ -26,8 +27,8 @@ const BoardDetail = ({ params }: { params: { id: number } }) => {
   }, []);
 
   return (
-    <div>
-      <div>
+    <div className={style["board-container"]}>
+      <div className={style["board-lists"]}>
         <BoardList data={hotels} title="숙소" />
         <BoardList data={restaurants} title="맛집" />
         <BoardList data={spots} title="관광지" />

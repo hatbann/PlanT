@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { HotelType, RestuarantType, SpotType } from "@/types/data.types";
 import style from "../../styles/components/boardList.module.scss";
+import { isHotelType, isRestuarantType } from "@/util/checkType";
 
 const BoardList = ({
   data,
@@ -13,22 +14,10 @@ const BoardList = ({
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  function isHotelType(
-    tag: HotelType | RestuarantType | SpotType
-  ): tag is HotelType {
-    return (tag as HotelType).price !== undefined;
-  }
-
-  function isRestuarantType(
-    tag: HotelType | RestuarantType | SpotType
-  ): tag is RestuarantType {
-    return (tag as RestuarantType).type !== undefined;
-  }
-
   console.log(data);
 
   return (
-    <div>
+    <div className={style["board-list-container"]}>
       <div
         onClick={() => {
           setIsOpen(!isOpen);

@@ -1,0 +1,12 @@
+/** @format */
+
+@import "../layout";
+
+.board-container {
+  width: 100%;
+  @include flex-row(flex-start, flex-start);
+}
+
+.board-lists {
+  width: 50%;
+}
