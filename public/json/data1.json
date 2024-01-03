@@ -1,0 +1,68 @@
+{
+  "hotel": [
+    {
+      "name": "hotel 1",
+      "price": 100000
+    },
+    {
+      "name": "hotel 2",
+      "price": 130000
+    },
+    {
+      "name": "hotel 3",
+      "price": 250000
+    },
+    {
+      "name": "hotel 4",
+      "price": 80000
+    },
+    {
+      "name": "hotel 5",
+      "price": 110000
+    }
+  ],
+  "restaurant": [
+    {
+      "name": "restaurant 1",
+      "type": "meat"
+    },
+    {
+      "name": "restaurant 2",
+      "type": "seafood"
+    },
+    {
+      "name": "restaurant 3",
+      "type": "asian"
+    },
+    {
+      "name": "restaurant 4",
+      "type": "chinese"
+    },
+    {
+      "name": "restaurant 5",
+      "type": "japanese"
+    }
+  ],
+  "spot": [
+    {
+      "name": "spot 1",
+      "desc": "this is spot 1"
+    },
+    {
+      "name": "spot 2",
+      "desc": "this is spot 2"
+    },
+    {
+      "name": "spot 3",
+      "desc": "this is spot 3"
+    },
+    {
+      "name": "spot 4",
+      "desc": "this is spot 4"
+    },
+    {
+      "name": "spot 5",
+      "desc": "this is spot 5"
+    }
+  ]
+}

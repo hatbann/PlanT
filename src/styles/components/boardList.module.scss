@@ -1,0 +1,26 @@
+/** @format */
+.board-list-title {
+  cursor: pointer;
+}
+
+.board-lists {
+}
+
+.board-list-detail {
+  cursor: pointer;
+  margin-bottom: 10px;
+
+  .hover-show {
+    display: none;
+  }
+}
+
+.board-list-detail:hover {
+  .hover-show {
+    display: inline-block;
+  }
+
+  .hover-hide {
+    display: none;
+  }
+}

@@ -1,9 +1,10 @@
 /** @format */
 
+import { redirect } from "next/navigation";
 import React from "react";
 
 const Board = () => {
-  return <div>board</div>;
+  redirect("/");
 };
 
 export default Board;
