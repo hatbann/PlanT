@@ -22,7 +22,26 @@ const BoardPlan = () => {
     setDates(orderedDate);
   };
 
-  const addTime = () => {};
+  const addTime = () => {
+    const { year, month, day } = getDate2digit(tempdate);
+    const date = new Date(
+      year,
+      Number(month),
+      Number(day),
+      Number(tempTime.substring(0, 2)),
+      Number(tempTime.substring(3))
+    );
+
+    const tempPlans = [...plans, { date }];
+    const orderdPlans = tempPlans.sort(
+      (a, b) => a.date.getTime() - b.date.getTime()
+    );
+    setPlans(orderdPlans);
+  };
+
+  useEffect(() => {
+    console.log(plans);
+  }, [plans.length]);
 
   return (
     <div className={style["plan-board-container"]}>
@@ -32,15 +51,24 @@ const BoardPlan = () => {
         날짜추가
       </div>
       {isShowCal && (
-        <DatePicker
-          selected={tempdate}
-          onChange={(date) => {
-            if (date) {
-              sortDates(date);
+        <div className={style["cal-container"]}>
+          <DatePicker
+            selected={tempdate}
+            onChange={(date) => {
+              if (date) {
+                sortDates(date);
+                setIsShowCal(false);
+              }
+            }}
+          />
+          <div
+            className={style["close-cal-btn"]}
+            onClick={() => {
               setIsShowCal(false);
-            }
-          }}
-        />
+            }}>
+            X
+          </div>
+        </div>
       )}
       {dates.map((date, idx) => {
         const { year, month, day } = getDate2digit(date);
@@ -49,7 +77,7 @@ const BoardPlan = () => {
             <div className={style["plan-date"]}>
               {year}/{month}/{day}
             </div>
-            <div>
+            <div className={style["plan-details"]}>
               {plans.map((plan) => {
                 if (date.getDate() === plan.date.getDate()) {
                   return (
@@ -58,13 +86,17 @@ const BoardPlan = () => {
                         {plan.date.getHours()} : {plan.date.getMinutes()}
                       </div>
                       <div>
-                        {plan.detail.name}(
-                        {isHotelType(plan.detail)
-                          ? `가격 : ${plan.detail.price}`
-                          : isRestuarantType(plan.detail)
-                          ? `유형 : ${plan.detail.type}`
-                          : plan.detail.desc}
-                        )
+                        {plan.detail && (
+                          <>
+                            {plan.detail.name}(
+                            {isHotelType(plan.detail)
+                              ? `가격 : ${plan.detail.price}`
+                              : isRestuarantType(plan.detail)
+                              ? `유형 : ${plan.detail.type}`
+                              : plan.detail.desc}
+                            )
+                          </>
+                        )}
                       </div>
                     </div>
                   );

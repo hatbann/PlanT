@@ -1,12 +1,16 @@
 /** @format */
 
 @import "../layout";
+@import "../variables";
 
 .board-container {
   width: 100%;
   @include flex-row(flex-start, flex-start);
+  padding: 30px;
 }
 
 .board-lists {
   width: 50%;
+  border: 1px solid $orange;
+  padding: 20px;
 }

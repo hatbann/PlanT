@@ -1,18 +1,44 @@
 /** @format */
 .board-list-container {
   width: 100%;
+  &:nth-child(1) {
+    .board-list-title {
+      background-color: rgb(216, 255, 192);
+    }
+  }
+
+  &:nth-child(2) {
+    .board-list-title {
+      background-color: rgb(255, 202, 215);
+    }
+  }
+
+  &:nth-child(3) {
+    .board-list-title {
+      background-color: rgb(203, 226, 255);
+    }
+  }
 }
 
 .board-list-title {
   cursor: pointer;
+  padding: 10px;
+  color: rgb(59, 59, 59);
+  font-weight: 700;
 }
 
 .board-lists {
+  margin-top: 5px;
+
+  &:last-child {
+    margin-bottom: -10px;
+  }
 }
 
 .board-list-detail {
   cursor: pointer;
   margin-bottom: 10px;
+  padding: 5px 10px;
 
   .hover-show {
     display: none;
