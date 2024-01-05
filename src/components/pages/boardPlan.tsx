@@ -105,7 +105,6 @@ const BoardPlan = ({
                     };
                   }
                 });
-                console.log(tempPlanArr);
                 setPlans(tempPlanArr);
                 // 그냥 plan 맨뒤에 넣기
               }
