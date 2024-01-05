@@ -1,14 +1,20 @@
 /** @format */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "../../styles/components/boardPlan.module.scss";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { PlanType } from "@/types/plan.types";
+import { DragPlanType, PlanType } from "@/types/plan.types";
 import { isHotelType, isRestuarantType } from "@/util/checkType";
 import { getDate2digit } from "@/util/getDate";
 
-const BoardPlan = () => {
+const BoardPlan = ({
+  draggingItem,
+}: {
+  draggingItem: DragPlanType | undefined;
+}) => {
+  const planRefs = useRef<HTMLDivElement[]>([]);
+
   const [dates, setDates] = useState<Date[]>([]);
   const [tempdate, SetTempdate] = useState<Date>(new Date());
   const [tempTime, setTempTime] = useState<string>("");
@@ -39,9 +45,76 @@ const BoardPlan = () => {
     setPlans(orderdPlans);
   };
 
+  const addPlanRef = (el: HTMLDivElement, idx: number) => {
+    planRefs.current[idx] = el;
+  };
+
   useEffect(() => {
-    console.log(plans);
-  }, [plans.length]);
+    planRefs.current.map((d, i) => {
+      if (d !== null) {
+        const { top, bottom, left, right } = d.getBoundingClientRect();
+        if (draggingItem) {
+          if (
+            draggingItem.x <= right &&
+            draggingItem.x >= left &&
+            draggingItem.y <= bottom &&
+            draggingItem.y >= top
+          ) {
+            const date =
+              planRefs.current[i].parentNode?.parentNode?.firstChild
+                ?.textContent;
+            const time = planRefs.current[i].firstChild?.textContent;
+
+            const tempDate =
+              date && time
+                ? new Date(
+                    Number(date.substring(0, 4)),
+                    Number(date.substring(5, 7)),
+                    Number(date?.substring(8)),
+                    Number(time.substring(0, 2)),
+                    Number(time.substring(5))
+                  )
+                : null;
+            if (tempDate) {
+              //그 다음요소가 있다면
+              if (planRefs.current[i + 1]) {
+                const tempPlanArr = plans;
+                if (i !== 0) {
+                  tempPlanArr.splice(i, 1, {
+                    date: tempDate,
+                    detail: draggingItem.data,
+                  });
+                } else {
+                  tempPlanArr[0].detail = draggingItem.data;
+                }
+                setPlans(tempPlanArr);
+              } else {
+                const tempplan = {
+                  date: tempDate,
+                  detail: draggingItem.data,
+                };
+                const tempPlanArr = [...plans];
+                tempPlanArr.map((plan, idx) => {
+                  if (
+                    plan.date.getDate() === tempplan.date.getDate() &&
+                    plan.date.getTime() === tempplan.date.getTime()
+                  ) {
+                    tempPlanArr[idx] = {
+                      ...tempPlanArr[idx],
+                      detail: tempplan.detail,
+                    };
+                  }
+                });
+                console.log(tempPlanArr);
+                setPlans(tempPlanArr);
+                // 그냥 plan 맨뒤에 넣기
+              }
+            }
+          }
+        }
+      }
+    });
+  }, [draggingItem?.y, draggingItem?.data.name]);
 
   return (
     <div className={style["plan-board-container"]}>
@@ -78,10 +151,14 @@ const BoardPlan = () => {
               {year}/{month}/{day}
             </div>
             <div className={style["plan-details"]}>
-              {plans.map((plan) => {
+              {plans.map((plan, idx) => {
                 if (date.getDate() === plan.date.getDate()) {
                   return (
-                    <div className={style["plan-date-detail"]}>
+                    <div
+                      className={style["plan-date-detail"]}
+                      ref={(el) => {
+                        if (el) addPlanRef(el, idx);
+                      }}>
                       <div className={style["plan-date-detail-time"]}>
                         {plan.date.getHours()} : {plan.date.getMinutes()}
                       </div>
