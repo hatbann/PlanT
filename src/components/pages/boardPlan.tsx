@@ -1,12 +1,12 @@
 /** @format */
 
-import React, { useEffect, useRef, useState } from "react";
-import style from "../../styles/components/boardPlan.module.scss";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { DragPlanType, PlanType } from "@/types/plan.types";
-import { isHotelType, isRestuarantType } from "@/util/checkType";
-import { getDate2digit } from "@/util/getDate";
+import React, { useEffect, useRef, useState } from 'react';
+import style from '../../styles/components/boardPlan.module.scss';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { DragPlanType, PlanType } from '@/types/plan.types';
+import { isHotelType, isRestuarantType } from '@/util/checkType';
+import { getDate2digit } from '@/util/getDate';
 
 const BoardPlan = ({
   draggingItem,
@@ -17,10 +17,23 @@ const BoardPlan = ({
 
   const [dates, setDates] = useState<Date[]>([]);
   const [tempdate, SetTempdate] = useState<Date>(new Date());
-  const [tempTime, setTempTime] = useState<string>("");
+  const [tempTime, setTempTime] = useState<string>('');
   const [isShowCal, setIsShowCal] = useState<boolean>(false);
   const [isShowSelectTime, setIsShowSelectTime] = useState<boolean>(false);
   const [plans, setPlans] = useState<PlanType[]>([]);
+
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    let tempTotal = 0;
+    console.log('adsf');
+    plans.map((plan, i) => {
+      if (plan.detail && isHotelType(plan.detail)) {
+        tempTotal += plan.detail.price;
+      }
+    });
+    setTotal(total);
+  }, [plans.length]);
 
   const sortDates = (date: Date) => {
     const tempDates: Date[] = [...dates, date];
@@ -43,6 +56,7 @@ const BoardPlan = ({
       (a, b) => a.date.getTime() - b.date.getTime()
     );
     setPlans(orderdPlans);
+    setIsShowSelectTime(false);
   };
 
   const addPlanRef = (el: HTMLDivElement, idx: number) => {
@@ -116,14 +130,15 @@ const BoardPlan = ({
   }, [draggingItem?.y, draggingItem?.data.name]);
 
   return (
-    <div className={style["plan-board-container"]}>
+    <div className={style['plan-board-container']}>
       <div
-        className={style["plan-add-date"]}
-        onClick={() => setIsShowCal(true)}>
+        className={style['plan-add-date']}
+        onClick={() => setIsShowCal(true)}
+      >
         날짜추가
       </div>
       {isShowCal && (
-        <div className={style["cal-container"]}>
+        <div className={style['cal-container']}>
           <DatePicker
             selected={tempdate}
             onChange={(date) => {
@@ -134,10 +149,11 @@ const BoardPlan = ({
             }}
           />
           <div
-            className={style["close-cal-btn"]}
+            className={style['close-cal-btn']}
             onClick={() => {
               setIsShowCal(false);
-            }}>
+            }}
+          >
             X
           </div>
         </div>
@@ -145,20 +161,21 @@ const BoardPlan = ({
       {dates.map((date, idx) => {
         const { year, month, day } = getDate2digit(date);
         return (
-          <div className={style["plan"]}>
-            <div className={style["plan-date"]}>
+          <div className={style['plan']}>
+            <div className={style['plan-date']}>
               {year}/{month}/{day}
             </div>
-            <div className={style["plan-details"]}>
+            <div className={style['plan-details']}>
               {plans.map((plan, idx) => {
                 if (date.getDate() === plan.date.getDate()) {
                   return (
                     <div
-                      className={style["plan-date-detail"]}
+                      className={style['plan-date-detail']}
                       ref={(el) => {
                         if (el) addPlanRef(el, idx);
-                      }}>
-                      <div className={style["plan-date-detail-time"]}>
+                      }}
+                    >
+                      <div className={style['plan-date-detail-time']}>
                         {plan.date.getHours()} : {plan.date.getMinutes()}
                       </div>
                       <div>
@@ -179,11 +196,12 @@ const BoardPlan = ({
                 }
               })}
               <div
-                className={style["add-time"]}
+                className={style['add-time']}
                 onClick={() => {
                   SetTempdate(date);
                   setIsShowSelectTime(true);
-                }}>
+                }}
+              >
                 + 시간추가
               </div>
             </div>
@@ -191,7 +209,7 @@ const BoardPlan = ({
         );
       })}
       {isShowSelectTime && (
-        <div className={style["add-time-container"]}>
+        <div className={style['add-time-container']}>
           <h4>
             {getDate2digit(tempdate).year}/{getDate2digit(tempdate).month}/
             {getDate2digit(tempdate).day}
@@ -203,15 +221,22 @@ const BoardPlan = ({
             }}
           />
           <button
-            className={style["add-time-cancel-btn"]}
+            className={style['add-time-cancel-btn']}
             onClick={() => {
               setIsShowSelectTime(false);
-            }}>
+            }}
+          >
             취소
           </button>
-          <button className={style["add-time-add-btn"]} onClick={addTime}>
+          <button className={style['add-time-add-btn']} onClick={addTime}>
             추가
           </button>
+        </div>
+      )}
+      {plans.length !== 0 && (
+        <div className={style['total-container']}>
+          <div>총액</div>
+          <div>{total}</div>
         </div>
       )}
     </div>

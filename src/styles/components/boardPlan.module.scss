@@ -1,6 +1,6 @@
 /** @format */
-@import "../layout";
-@import "../variables";
+@import '../layout';
+@import '../variables';
 
 .plan-board-container {
   position: relative;
@@ -30,6 +30,7 @@
   @include flex-row(flex-start, flex-start);
   border: 1px solid rgb(191, 233, 169);
   padding: 10px;
+  margin-bottom: 5px;
 }
 
 .plan-date,
@@ -106,4 +107,20 @@
 .add-time-add-btn {
   background-color: $orange;
   color: white;
+}
+
+.total-container {
+  @include flex-row(flex-start, center);
+  padding: 10px;
+
+  > div:nth-child(1) {
+    width: 80px;
+    margin-right: 7px;
+  }
+
+  > div:nth-child(2) {
+    padding-left: 8px;
+    border-left: 1px solid rgb(191, 233, 169);
+    width: 400px;
+  }
 }
